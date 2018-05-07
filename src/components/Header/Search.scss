@@ -1,0 +1,20 @@
+.form {
+    float: left;
+    position: relative;
+    margin-left: 0px;
+
+    .cancel {
+        color: #bfbfbf;
+        position:absolute;
+        top: 18px;
+        font-size: 16px;
+        right: 7px;
+        cursor: pointer;
+    }
+    .input {
+        padding:5px 10px;
+        width:200px;
+        border-radius:50px;
+        border: 1px solid #bfbfbf;
+    }
+}

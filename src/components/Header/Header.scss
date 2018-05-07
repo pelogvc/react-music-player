@@ -1,0 +1,23 @@
+@import url('https://fonts.googleapis.com/css?family=Fira+Sans');
+
+.header {
+    height:50px;
+    line-height:50px;
+
+    > .logo {
+        float:left;
+        margin: 0 30px;
+        font-family: 'Fira Sans', sans-serif;
+        font-weight: 800;
+
+        a {
+            color: #e50914;
+            font-size:30px;
+            letter-spacing:-1px;
+        }
+    }
+    > .search {
+        display: block;
+        float:left;
+    }
+}

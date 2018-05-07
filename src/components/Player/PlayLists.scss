@@ -1,0 +1,35 @@
+.lists {
+    width:250px;
+    height: calc(100% - 50px);
+    position:fixed;
+    top:0;
+    right:0;
+    background:#13141d;
+    z-index:5;
+    color:#cecece;
+    overflow-y: scroll;
+    overflow-x: hidden;
+
+    .list {
+
+        >li {
+            clear:both;
+            width:100%;
+            height:50px;
+            padding:5px 20px;
+
+            img {
+                display:block;
+                float:left;
+                width:40px;
+                height:40px;
+            }
+
+            ul {
+                float:left;
+
+                li {}
+            }
+        }
+    }
+}

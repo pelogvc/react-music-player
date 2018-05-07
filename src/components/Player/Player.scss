@@ -1,0 +1,141 @@
+.player {
+    background-color:#212121;
+    color:#737373;
+    position:fixed;
+    width:100%;
+    height:50px;
+    bottom:0;
+    left:0;
+    line-height:50px;
+    z-index:6;
+
+
+    .progressbar {
+        width: 100%;
+        position: absolute;
+        top: -3px;
+        left: 0;
+        height: 3px;
+        cursor:pointer;
+
+        .bar {
+            display:block;
+            width:30%;
+            height:100%;
+            background: #3b74ff;
+            transition:width 0.3s;
+        }
+    }
+
+    .playlister {
+        display:block;
+        float:right;
+        margin-right:30px;
+        height:100%;
+        line-height:50px;
+        font-weight: 100;
+        color:#cecece;
+        cursor:pointer;
+
+        &:after {
+            content: '재생목록';
+            margin-left:5px;
+            font-size:13px;
+            vertical-align: top;
+        }
+    }
+
+    .control {
+        margin: 0 auto;
+        width:550px;
+        line-height: 42px;
+
+        .backward {
+            vertical-align: middle;
+            cursor:pointer;
+        }
+        .play {
+            margin:0 20px;
+            color:white;
+            vertical-align: middle;
+            font-size:24px;
+            cursor:pointer;
+        }
+        .forward {
+            vertical-align: middle;
+            cursor:pointer;
+        }
+
+        .info {
+            float:right;
+            width:435px;
+            height:100%;
+            line-height:50px;
+
+            // 앨범이미지
+            .picture {
+                float:left;
+                margin-right:10px;
+
+                img {
+                    width:40px;
+                    height:40px;
+                    margin-top:5px;
+                }
+            }
+
+            // 가사
+            .lyrics {
+                float: left;
+                margin-top:6px;
+
+                li {
+                    line-height: 18px;
+                    font-size: 13px;
+                    margin: 0;
+                    padding: 0;
+                    color:#cecece;
+
+                    &:first-child {
+                        font-weight: 400;
+                        //color:#e50914;
+                    }
+                }
+            }
+
+            // 시간
+            .times {
+                float:right;
+
+                span {
+                    &:first-child {
+                        margin-right:20px;
+                        color:#cecece;
+                    }
+                }
+            }
+        }
+    }
+
+    .controls {
+        float:left;
+        margin-left: 30px;
+        font-size:17px;
+
+        .random {
+            margin-right:20px;
+            cursor:pointer;
+        }
+        .repeat {
+            margin-right:20px;
+            cursor:pointer;
+        }
+        .volume {
+            cursor:pointer;
+        }
+
+        .on {
+            color:#cecece;
+        }
+    }
+}

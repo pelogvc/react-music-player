@@ -1,0 +1,84 @@
+.chart {
+
+    margin: 20px 30px;
+    
+    >.title {
+        font-weight: 500;
+        color: #232234;
+        font-size:20px;
+        letter-spacing:-1px;
+    }
+
+    >.list {
+        margin-top: 20px;
+        min-width:1040px;
+        font-size:14px;
+
+        tr {
+            display: table;
+            width: 100%;
+            table-layout: fixed;
+        }
+
+        th {
+            height:50px;
+            line-height:50px;
+            color:#c6c7c7;
+            border-bottom: 2px solid #f5f5f5;
+            text-align:left;
+            font-weight:300;
+            font-size:16px;
+            width:20%;
+        }
+        td {
+            height:50px;
+            line-height:50px;
+            color:#969696;
+            width:20%;
+            border-bottom: 1px solid #f8f8f8;
+            //줄넘김 방지
+            text-overflow:ellipsis;
+            overflow:hidden;
+            white-space:nowrap;
+
+            img {
+                width:40px;
+                display:inline-block;
+                vertical-align: middle;
+            }
+            span {
+                display:inline-block;
+                vertical-align: middle;
+                margin-left:15px;
+                color:#232234;
+                font-weight:400;
+                width:20px;
+                text-align:center;
+            }
+        }
+        .index {
+            width: 10%;
+        }
+        .title {
+            width: 50%;
+            color:#827875;
+            font-weight:400;
+            position:relative;
+
+            .play {
+                position: absolute;
+                top: 16px;
+                right: 15px;
+                font-size:17px;
+                color:#afafaf;
+                font-weight:100;
+                cursor:pointer;
+
+                &:hover {
+                    color:black;
+                }
+            }
+        }
+    }
+
+}
