@@ -1,13 +1,10 @@
 import React from 'react';
 import classNames from 'classnames/bind';
 import styles from './Player.scss';
-import Fa from 'react-fontawesome';
 
 const cx = classNames.bind(styles);
 
 const Player = ({ onPlay, onRepeat, onRandom, onProgress, player, playingId, currentTime, duration, onPlaylist}) => {
-    
-    //<Fa name="play" className={cx('play')} />
 
     return (
         <div className={cx('player')}>

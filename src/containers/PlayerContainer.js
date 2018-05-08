@@ -20,51 +20,66 @@ class PlayerContainer extends React.Component {
         this.updateProgress = this.updateProgress.bind(this);
         this.setProgress = this.setProgress.bind(this);
         this.handlePlaylist = this.handlePlaylist.bind(this);
+        this._play = this._play.bind(this);
+        this.playByIndex = this.playByIndex.bind(this);
         
         this.audio.addEventListener('timeupdate', e => {
             this.updateProgress();
-          });
+            if ( Math.floor(this.audio.duration) <= this.audio.currentTime ) { // 임시방편
+                this.handleNext();
+            }
+        });
         this.audio.addEventListener('ended', e => {
+            console.log('ended');
             this.handleNext();
         });
+
         props.PlayerActions.play_function(this._play);
-        //console.log(props.PlayerActions);
     }
 
     _play = (id) => {
-        console.log(id);
-        let mp3 = 'http://192.168.0.102:4000/music/mp3/' + this.props.playlist[this.props.player.playIndex].id + '/320';
+        let mp3 = 'http://192.168.0.102:4000/music/mp3/' + id + '/320';
         
         if ( this.audio.src !== mp3 ) {
             this.audio.src = mp3;
             this.audio.load();
-
-            const audio = this.audio;
-            window.audio = audio;
         }
 
-        if ( this.props.player.playing )
-            this.audio.pause();
-        else
-            this.audio.play();
+        this.audio.play();
+        this.props.PlayerActions.play(true);
+    }
 
-        this.props.PlayerActions.play(!this.props.player.playing);
+    playByIndex = (index) => {
+        const id = this.props.playlist[index].id;
+        this.audio.currentTime = 0; // 재시작
+        this._play(id);
+        this.props.PlayerActions.set_playindex(index); // index설정
     }
 
     handleNext = () => {
+        const { playIndex, random, repeat } = this.props.player;
+        const total = this.props.playlist.length;
 
+        const newSongIndex = random ? Math.floor(Math.random() * (total)) : 
+                                repeat ? playIndex : 
+                                playIndex < total - 1 ? playIndex + 1 : 0;
+
+        this.playByIndex(newSongIndex);
     }
     
     handlePlay = () => {
-        
         // 플레이 리스트 비어있는경우
         if ( !this.props.playlist.length ) {
             alert('재생목록이 비어있습니다.');
             return false;
         }
 
-        this._play(this.props.playlist[this.props.player.playIndex].id);
-        
+        if ( this.props.player.playing ) {
+            this.audio.pause();
+            this.props.PlayerActions.play(false);
+        }else{
+            this._play(this.props.playlist[this.props.player.playIndex].id);
+        }
     };
 
     updateProgress = () => {
@@ -100,11 +115,10 @@ class PlayerContainer extends React.Component {
     }
 
     render() {
-        console.log(this.props.player);
+        //console.log(this.props.player);
         return ( 
             //<div onClick={this.props.player.play_function(1)}>aa</div>
             <div>
-                <div onClick={() => this.props.player.play_function(1)}>test</div>
                 <Player 
                     onPlay={this.handlePlay}
                     onRepeat={this.handleRepeat} 
@@ -116,7 +130,7 @@ class PlayerContainer extends React.Component {
                     currentTime={ this.audio.currentTime }
                     duration={ this.audio.duration ? this.audio.duration : 0 }
                 />
-                { this.props.player.playlist ? <PlayLists list={this.props.playlist} /> : '' }
+                { this.props.player.playlist ? <PlayLists list={this.props.playlist} onPlay={this.playByIndex} playIndex={this.props.player.playIndex} /> : '' }
             </div>
         );
     }

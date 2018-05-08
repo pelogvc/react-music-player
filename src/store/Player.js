@@ -7,6 +7,7 @@ const RANDOM = 'player/RANDOM';
 const SET_PROGRESS = 'player/SET_PROGRESS';
 const PLAY_FUNCTION = 'player/PLAY_FUNCTION';
 const TOGGLE_PLAYLIST = 'player/TOGGLE_PLAYLIST';
+const SET_PLAYINDEX = 'player/SET_PLAYINDEX';
 
 export const play = createAction(PLAY);
 export const repeat = createAction(REPEAT);
@@ -14,6 +15,7 @@ export const random = createAction(RANDOM);
 export const set_progress = createAction(SET_PROGRESS);
 export const play_function = createAction(PLAY_FUNCTION);
 export const toggle_playlist = createAction(TOGGLE_PLAYLIST);
+export const set_playindex = createAction(SET_PLAYINDEX);
 
 const initialState = Map({
                         'playing': false,
@@ -31,7 +33,7 @@ export default handleActions({
         return state.set('playing', action.payload);
     },
     [PLAY_FUNCTION]: (state, action) => {
-        return state.set('playfunction', action.payload);
+        return state.set('playfunction', action.payload); // _play
     },
     [REPEAT]: (state, action) => {
         return state.set('repeat', action.payload);
@@ -44,5 +46,8 @@ export default handleActions({
     },
     [TOGGLE_PLAYLIST]: (state, action) => {
         return state.set('playlist', action.payload);
-    }
+    },
+    [SET_PLAYINDEX]: (state, action) => {
+        return state.set('playIndex', action.payload);
+    },
 }, initialState)

@@ -4,9 +4,6 @@ import axios from 'axios';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as playlistActions from '../store/PlayLists';
-import * as playerActions from '../store/Player';
-
-
 
 class HomeContainer extends React.Component {
     constructor(props) {
@@ -31,7 +28,7 @@ class HomeContainer extends React.Component {
 
     handleAddPlaylist = async (id) => {
 
-        const { PlaylistActions, PlayerActions } = this.props;
+        const { PlaylistActions, player } = this.props;
 
         // 곡정보
         let result = await axios.get(`http://192.168.0.102:4000/music/info/${id}`);
@@ -40,17 +37,15 @@ class HomeContainer extends React.Component {
 
         let data = Object.assign({id}, result.data, lyrics.data);
 
-        
         PlaylistActions.create(data);
-        
+        player.playfunction(id);
     }
 
     componentDidMount(){
         this.getChart();
     }
+
     shouldComponentUpdate(nextProps, nextState) {
-        //console.log(this.state);
-        //console.log(nextState);
         if ( this.state !== nextState )
             return true;
         
@@ -72,6 +67,5 @@ export default connect(
     }),
     (dispatch) => ({
         PlaylistActions: bindActionCreators(playlistActions, dispatch),
-        PlayerActions: bindActionCreators(playerActions, dispatch),
     })
 )(HomeContainer); 
