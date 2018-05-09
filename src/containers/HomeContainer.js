@@ -29,7 +29,7 @@ class HomeContainer extends React.Component {
     handleAddPlaylist = async (id) => {
 
         const { PlaylistActions, player } = this.props;
-
+        
         // 곡정보
         let result = await axios.get(`http://192.168.0.102:4000/music/info/${id}`);
         // 가사정보

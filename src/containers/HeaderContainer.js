@@ -13,10 +13,6 @@ class HeaderContainer extends React.Component {
     }
     handleSubmit = (e) => {
         this.props.history.push('/search/' + this.state.value);
-        if ( this.state.value )
-            this.props.history.push('/search/' + this.state.value);
-        else
-            this.props.history.push('/');
 
         e.preventDefault();
     }
