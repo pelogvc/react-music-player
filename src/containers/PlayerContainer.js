@@ -56,6 +56,15 @@ class PlayerContainer extends React.Component {
         this.props.PlayerActions.set_playindex(index); // index설정
     }
 
+    handlePrevious = () => {
+        const total = this.props.playlist.length;
+        const { playIndex } = this.props.player;
+
+        const newSongIndex = playIndex > 0 ? playIndex - 1 : total - 1;
+
+        this.playByIndex(newSongIndex);
+    }
+
     handleNext = () => {
         const { playIndex, random, repeat } = this.props.player;
         const total = this.props.playlist.length;
@@ -125,6 +134,8 @@ class PlayerContainer extends React.Component {
                     onRandom={this.handleRandom}
                     onProgress={this.setProgress}
                     onPlaylist={this.handlePlaylist}
+                    onPrevious={this.handlePrevious}
+                    onNext={this.handleNext}
                     player={this.props.player}
                     playingId={ this.props.player.progress ? this.props.playlist[this.props.player.playIndex].id : 0}
                     currentTime={ this.audio.currentTime }

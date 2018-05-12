@@ -4,7 +4,18 @@ import styles from './Player.scss';
 
 const cx = classNames.bind(styles);
 
-const Player = ({ onPlay, onRepeat, onRandom, onProgress, player, playingId, currentTime, duration, onPlaylist}) => {
+const Player = ({ 
+    onPlay, 
+    onRepeat, 
+    onRandom, 
+    onProgress, 
+    onPrevious,
+    onNext,
+    player, 
+    playingId, 
+    currentTime, 
+    duration, 
+    onPlaylist}) => {
 
     return (
         <div className={cx('player')}>
@@ -33,14 +44,20 @@ const Player = ({ onPlay, onRepeat, onRandom, onProgress, player, playingId, cur
                 'on': player.playlist,
             })} onClick={onPlaylist} />
             <div className={cx('control')}>
-                <span className={cx(['fa','fa-step-backward','backward'])} />
+                <span
+                    className={cx(['fa','fa-step-backward','backward'])}
+                    onClick={onPrevious}
+                />
                 <span className={cx({
                     'fa' : true,
                     'play' : true,
                     'fa-play' : !player.playing,
                     'fa-pause' : player.playing,
                 })} onClick={onPlay} />
-                <span className={cx(['fa','fa-step-forward','forward'])} />
+                <span
+                    className={cx(['fa','fa-step-forward','forward'])}
+                    onClick={onNext}
+                />
                 <div className={cx('info')}>
                     <div className={cx('picture')}>
                         { player.progress > 0 ? <img src={`//127.0.0.1:4000/music/cover/${playingId}`} alt='asdf' /> : '' }
