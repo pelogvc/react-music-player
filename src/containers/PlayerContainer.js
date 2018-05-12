@@ -18,6 +18,7 @@ class PlayerContainer extends React.Component {
         this.handlePlay = this.handlePlay.bind(this);
         this.handleNext = this.handleNext.bind(this);
         this.updateProgress = this.updateProgress.bind(this);
+        this.updateLyrics = this.updateLyrics.bind(this);
         this.setProgress = this.setProgress.bind(this);
         this.handlePlaylist = this.handlePlaylist.bind(this);
         this._play = this._play.bind(this);
@@ -28,6 +29,8 @@ class PlayerContainer extends React.Component {
             if ( (this.audio.duration - 1) <= this.audio.currentTime ) { // 임시방편
                 this.handleNext();
             }
+
+            this.updateLyrics();
         });
         this.audio.addEventListener('ended', e => {
             console.log('ended');
@@ -35,6 +38,35 @@ class PlayerContainer extends React.Component {
         });
 
         props.PlayerActions.play_function(this._play);
+    }
+
+    updateLyrics = () => {
+        const { playIndex } = this.props.player;
+        const { lyrics, title, artist } = this.props.playlist[playIndex];
+        const currentTime = Math.floor(this.audio.currentTime);
+
+        if ( currentTime < lyrics[0].time ) {
+            this.lyricsNode.lyrics.childNodes[0].innerHTML = title;
+            this.lyricsNode.lyrics.childNodes[1].innerHTML = artist;
+        }
+
+        for(let i=0; i < lyrics.length; i++) {
+            let time = Number(lyrics[i].time);
+
+
+            // 시간이 높다면
+            if ( time > currentTime ){
+                break;
+            }
+            if ( time === currentTime ){
+                this.lyricsNode.lyrics.childNodes[0].innerHTML = lyrics[i].content;
+                this.lyricsNode.lyrics.childNodes[1].innerHTML = lyrics[++i].content;
+            }
+        }
+    }
+
+    setLyrics = () => {
+
     }
 
     _play = (id) => {
@@ -140,6 +172,7 @@ class PlayerContainer extends React.Component {
                     playingId={ this.props.player.progress ? this.props.playlist[this.props.player.playIndex].id : 0}
                     currentTime={ this.audio.currentTime }
                     duration={ this.audio.duration ? this.audio.duration : 0 }
+                    ref={(node) => { this.lyricsNode = node; }}
                 />
                 { this.props.player.playlist ? <PlayLists list={this.props.playlist} onPlay={this.playByIndex} playIndex={this.props.player.playIndex} /> : '' }
             </div>
