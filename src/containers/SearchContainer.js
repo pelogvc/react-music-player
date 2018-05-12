@@ -35,19 +35,12 @@ class SearchContainer extends React.Component {
             console.log(e);
         }
     }
-    
+
     componentDidMount() {
         this.getSearchList();
     }
-
-    shouldComponentUpdate(nextProps, nextState) {
-        if ( JSON.stringify(this.state) !== JSON.stringify(nextState) )
-            return true;
-        
-        return false;
-    }
     
-
+    
     componentWillReceiveProps(nextProps) {
         let { pnum, query } = nextProps.match.params;
         this.setState({
@@ -57,9 +50,10 @@ class SearchContainer extends React.Component {
             this.getSearchList();
         });
     }
+    
 
     handleAddPlaylist = async (id) => {
-        const { PlaylistActions, player } = this.props;
+        const { PlaylistActions, play } = this.props;
         
         const info = await Promise.all([
             await axios.get('http://127.0.0.1:4000/music/info/' + id),
@@ -69,7 +63,7 @@ class SearchContainer extends React.Component {
         let data = Object.assign({ id }, info[0].data, info[1].data);
 
         PlaylistActions.create(data);
-        player.playfunction(id);
+        play(id);
     }
 
     render() {
@@ -78,7 +72,7 @@ class SearchContainer extends React.Component {
             <MusicTable data={list} onLoading={false} onAddPlaylist={this.handleAddPlaylist} title={`${this.props.match.params.query} 검색결과`} />
         )
     }
-}
+} 
 
 /*SearchContainer.propTypes = {
     query: React.propTypes.string,
@@ -87,7 +81,7 @@ class SearchContainer extends React.Component {
 
 export default connect(
     (state) => ({
-        player: state.Player.toJS(),
+        play: state.Player.toJS().playfunction,
     }),
     (dispatch) => ({
         PlaylistActions: bindActionCreators(playlistActions, dispatch),
