@@ -9,17 +9,23 @@ class SearchContainer extends React.Component {
 
     constructor(props) {
         super(props);
+
+        let { pnum, query } = props.match.params;
         this.state = {
             'data': '',
+            query,
+            pnum,
         };
+
         this.getSearchList = this.getSearchList.bind(this);
+        this.handleAddPlaylist = this.handleAddPlaylist.bind(this);
     }
 
     getSearchList = async () => {
         let { pnum, query } = this.state;
         pnum = pnum === undefined ? 1 : pnum;
         try {
-            let result = await axios.get(`http://192.168.0.102:4000/music/search/${query}/${pnum}`);
+            let result = await axios.get(`http://127.0.0.1:4000/music/search/${query}/${pnum}`);
             if ( result.status === 200 ) {
                 this.setState({
                     data: result.data,
@@ -34,6 +40,14 @@ class SearchContainer extends React.Component {
         this.getSearchList();
     }
 
+    shouldComponentUpdate(nextProps, nextState) {
+        if ( JSON.stringify(this.state) !== JSON.stringify(nextState) )
+            return true;
+        
+        return false;
+    }
+    
+
     componentWillReceiveProps(nextProps) {
         let { pnum, query } = nextProps.match.params;
         this.setState({
@@ -44,10 +58,24 @@ class SearchContainer extends React.Component {
         });
     }
 
+    handleAddPlaylist = async (id) => {
+        const { PlaylistActions, player } = this.props;
+        
+        const info = await Promise.all([
+            await axios.get('http://127.0.0.1:4000/music/info/' + id),
+            await axios.get('http://127.0.0.1:4000/music/lyrics/' + id),
+        ]);
+
+        let data = Object.assign({ id }, info[0].data, info[1].data);
+
+        PlaylistActions.create(data);
+        player.playfunction(id);
+    }
+
     render() {
         const { list } = this.state.data;
         return (
-            <MusicTable data={list} onLoading={false} onAddPlaylist={false} title={`${this.props.match.params.query} 검색결과`} />
+            <MusicTable data={list} onLoading={false} onAddPlaylist={this.handleAddPlaylist} title={`${this.props.match.params.query} 검색결과`} />
         )
     }
 }

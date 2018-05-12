@@ -17,7 +17,7 @@ class HomeContainer extends React.Component {
 
     }
     getChart = async () => {
-        let result = await axios.get(`http://192.168.0.102:4000/music/chart`);
+        let result = await axios.get(`http://127.0.0.1:4000/music/chart`);
         if ( result.status === 200 ) {
             this.setState({
                 loading: false,
@@ -30,12 +30,12 @@ class HomeContainer extends React.Component {
 
         const { PlaylistActions, player } = this.props;
         
-        // 곡정보
-        let result = await axios.get(`http://192.168.0.102:4000/music/info/${id}`);
-        // 가사정보
-        let lyrics = await axios.get(`http://192.168.0.102:4000/music/lyrics/${id}`);
+        const info = await Promise.all([
+            await axios.get('http://127.0.0.1:4000/music/info/' + id),
+            await axios.get('http://127.0.0.1:4000/music/lyrics/' + id),
+        ]);
 
-        let data = Object.assign({id}, result.data, lyrics.data);
+        let data = Object.assign({ id }, info[0].data, info[1].data);
 
         PlaylistActions.create(data);
         player.playfunction(id);

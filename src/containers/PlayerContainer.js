@@ -25,7 +25,7 @@ class PlayerContainer extends React.Component {
         
         this.audio.addEventListener('timeupdate', e => {
             this.updateProgress();
-            if ( Math.floor(this.audio.duration) <= this.audio.currentTime ) { // 임시방편
+            if ( (this.audio.duration - 1) <= this.audio.currentTime ) { // 임시방편
                 this.handleNext();
             }
         });
@@ -38,7 +38,7 @@ class PlayerContainer extends React.Component {
     }
 
     _play = (id) => {
-        let mp3 = 'http://192.168.0.102:4000/music/mp3/' + id + '/320';
+        let mp3 = 'http://127.0.0.1:4000/music/mp3/' + id + '/320';
         
         if ( this.audio.src !== mp3 ) {
             this.audio.src = mp3;
@@ -46,7 +46,7 @@ class PlayerContainer extends React.Component {
         }
 
         this.audio.play();
-        this.props.PlayerActions.play(true);
+        this.props.PlayerActions.play(true);   
     }
 
     playByIndex = (index) => {
